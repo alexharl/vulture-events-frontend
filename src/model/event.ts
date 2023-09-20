@@ -1,5 +1,6 @@
+export type TEventOrigin = 'zbau' | 'rakete' | 'haus33';
 export interface IEvent {
-  origin: string;
+  origin: TEventOrigin;
   id: string;
 
   url: string;

@@ -1,27 +1,59 @@
 import { RouteObject, useLoaderData, useNavigate } from 'react-router-dom';
-import { EventCards } from '../../components/event-cards';
-import { CategoryCards } from '../../components/category-cards';
 import { EventList } from '../../components/event-list';
 import { categories } from '../../common/categories';
 import { ActionResponse } from '../../model/actionResponse';
 import { IEvent } from '../../model/event';
 import { getEvents, getEventsNextWeekend } from '../../api';
+import { CardSlider } from '../../components/card-slider';
+import { LocationBadge } from '../../components/badge/badge';
+import { navigateToSearch } from '../../common/navigation';
+import { Button } from 'primereact/button';
 
 const HomeDestination: React.FC = () => {
   const eventsData = useLoaderData() as ActionResponse<{ eventsResponse: ActionResponse<IEvent[]>; weekendResponse: ActionResponse<IEvent[]> }>;
   const navigate = useNavigate();
+
   return (
     <div className="surface-ground">
-      <EventCards title="Wochenende" emptyMessage={eventsData.data?.weekendResponse?.message} events={eventsData.data?.weekendResponse?.data || []} />
-      <CategoryCards title="Kategorien" categories={categories} />
+      <CardSlider
+        title="Wochenende"
+        items={(eventsData.data?.weekendResponse?.data || []).map(event => {
+          return {
+            id: event.id,
+            href: `/${event.id}`,
+            title: event.title,
+            imageUrl: event.images?.[0] || '/images/fallback-image-event.jpg',
+            subtitle: event.date + (event.time ? ' ' + event.time : ''),
+            content: <LocationBadge origin={event.origin} />
+          };
+        })}
+      />
+
+      <CardSlider
+        title="Kategorien"
+        variant="small"
+        items={categories.map(category => {
+          return {
+            id: category.id,
+            href: `/search?categories=${category.id}`,
+            title: category.name,
+            imageUrl: category.image || '/images/fallback-image-event.jpg'
+          };
+        })}
+      />
+
       <EventList
         title="Nächste Events"
         emptyMessage={eventsData.data?.eventsResponse?.message}
         events={eventsData.data?.eventsResponse?.data || []}
         onSearch={() => {
-          navigate('/search');
+          navigateToSearch(navigate);
         }}
       />
+
+      <div className="pl-3 pr-3 pb-4 flex justify-content-center">
+        <Button rounded label="Alle Anzeigen" onClick={() => navigateToSearch(navigate)} />
+      </div>
     </div>
   );
 };

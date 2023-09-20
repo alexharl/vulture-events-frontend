@@ -1,0 +1,20 @@
+.card {
+    position: relative;
+    padding-bottom: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-small {
+    width: 200px;
+    height: 100px;
+}
+
+.card-big {
+    width: 250px;
+    height: 250px;
+}
+  
+.card-info {
+  background: rgba(0, 0, 0, 0.6); 
+}
