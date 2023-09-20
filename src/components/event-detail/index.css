@@ -1,0 +1,29 @@
+.image-container {
+  position: fixed; /* Fixed position */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 33vh; /* 1/3 of the viewport height */
+  z-index: 0; /* Sit below the info sheet */
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-sheet {
+  position: relative;
+  top: 30vh; /* Start right after the image */
+  width: 100%;
+  background: transparent !important;
+  z-index: 1; /* Sit above the image */
+}
+
+.float-top-left {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+}

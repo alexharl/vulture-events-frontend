@@ -1,0 +1,17 @@
+.event-card {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  padding-bottom: 100%;  /* makes it quadratic */
+  background-size: cover;
+  background-position: center;
+}
+  
+.event-info {
+  background: rgba(0, 0, 0, 0.35); 
+}
+
+.event-content {
+    width: 100%;
+}
+ 

@@ -1,0 +1,9 @@
+.category-card {
+  width: 200px;
+  height: 100px;
+  position: relative;
+  padding-bottom: 100%;
+  background-size: cover;
+  background-position: center;
+}
+ 
