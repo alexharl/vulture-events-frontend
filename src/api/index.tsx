@@ -16,7 +16,8 @@ export async function getEvents(query?: IEventQuery): Promise<ActionResponse<IEv
         text: query?.text || '',
         nextWeekend: query?.nextWeekend ? '1' : '0',
         categories: query?.categories?.join(',') || '',
-        limit: query?.limit?.toString() || ''
+        limit: query?.limit?.toString() || '',
+        origin: query?.origin?.toString() || '',
       })
   );
   return await response.json();

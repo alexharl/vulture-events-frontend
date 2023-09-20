@@ -14,6 +14,21 @@ export const categories: ICategory[] = [
     image: '/images/categories/dnb.jpg'
   },
   {
+    id: 'techno',
+    name: 'Techno',
+    image: '/images/categories/techno.jpg'
+  },
+  {
+    id: 'psy',
+    name: 'Psy / Goa',
+    image: '/images/categories/psy.jpg'
+  },
+  {
+    id: 'dub',
+    name: 'Dub / Reggae',
+    image: '/images/categories/dub.jpg'
+  },
+  {
     id: 'hiphop',
     name: 'Hip-Hop',
     image: '/images/categories/hiphop.jpg'
@@ -37,21 +52,6 @@ export const categories: ICategory[] = [
     id: 'rap',
     name: 'Rap',
     image: '/images/categories/rap.jpg'
-  },
-  {
-    id: 'techno',
-    name: 'Techno',
-    image: '/images/categories/techno.jpg'
-  },
-  {
-    id: 'psy',
-    name: 'Psy / Goa',
-    image: '/images/categories/psy.jpg'
-  },
-  {
-    id: 'dub',
-    name: 'Dub / Reggae',
-    image: '/images/categories/dub.jpg'
   },
   {
     id: 'sonstiges',
