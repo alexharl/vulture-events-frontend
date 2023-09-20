@@ -32,9 +32,6 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
       <div className="image-container">
         <img src={imageUrl} alt="Detail" className="detail-image" />
       </div>
-      <div className="image-container image-container-under">
-        <img src={imageUrl} alt="Detail" className="detail-image" />
-      </div>
       {onBack && <Button className={'float-top-left surface-card' + (isSafari ? ' mt-6' : '')} onClick={onBack} icon="pi pi-arrow-left" rounded text raised aria-label="Back" />}
       <div className="info-sheet">
         <div className="text-color border-round-top-xl surface-ground pb-4">
