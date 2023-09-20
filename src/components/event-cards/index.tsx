@@ -40,6 +40,11 @@ export const EventCardItem: React.FC<IEventCardItemProps> = ({ event }) => {
             <img className="w-full" src="/images/locations/logo-rakete.png" alt="Logo Rakete" />
           </div>
         )}
+        {event.origin === 'haus33' && (
+          <div className="absolute" style={{ top: '15px', right: '0px', width: '75px', height: '37px', backgroundColor: 'black' }}>
+            <img className="w-full" src="/images/locations/logo-haus33.png" alt="Logo Haus33" />
+          </div>
+        )}
         {event.origin === 'zbau' && (
           <div className="absolute" style={{ top: '15px', right: '0px', width: '75px', height: '37px', backgroundColor: 'white' }}>
             <img className="w-full" src="/images/locations/logo-zbau.png" alt="Logo ZBau" />
