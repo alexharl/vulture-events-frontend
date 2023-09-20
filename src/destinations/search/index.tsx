@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { SearchFilter } from '../../components/search-filter';
 import { IEventQuery } from '../../model/query';
 import { getEvents } from '../../api';
+import { navigateToSearch } from '../../common/navigation';
 
 const SearchDestination: React.FC = () => {
   const eventsData = useLoaderData() as ActionResponse<IEvent[]>;
@@ -38,14 +39,10 @@ const SearchDestination: React.FC = () => {
       <SearchFilter
         query={query}
         onQueryChange={q => {
-          navigate('/search?text=' + (q.text || '') + '&categories=' + q.categories?.join(','));
+          navigateToSearch(navigate, q);
         }}
       />
-      <EventList
-        emptyMessage="Keine Ergebnisse"
-        title={(eventsData.data || []).length ? (eventsData.data || []).length + ' Ergebnisse' : undefined}
-        events={eventsData.data || []}
-      />
+      <EventList emptyMessage="Keine Ergebnisse" title={(eventsData.data || []).length ? (eventsData.data || []).length + ' Ergebnisse' : undefined} events={eventsData.data || []} />
     </div>
   );
 };

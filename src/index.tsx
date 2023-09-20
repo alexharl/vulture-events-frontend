@@ -7,7 +7,9 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 //theme
 import './index.css';
-import 'primereact/resources/themes/vela-orange/theme.css';
+// import 'primereact/resources/themes/vela-orange/theme.css';
+// import 'primereact/resources/themes/md-dark-indigo/theme.css';
+import 'primereact/resources/themes/viva-dark/theme.css';
 
 //core
 import '/node_modules/primeflex/primeflex.css';

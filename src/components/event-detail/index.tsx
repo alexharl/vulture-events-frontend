@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { resolveCategoriesFromId } from '../../common/categories';
 import { Button } from 'primereact/button';
 import { IEventQuery } from '../../model/query';
-import { EventCards } from '../event-cards';
+import { CardSlider } from '../card-slider';
 
 export interface IEventDetailProps {
   event: IEvent;
@@ -22,12 +22,20 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
 
   const imageUrl = event.images?.[0] || '/images/fallback-image-event.jpg';
 
+  const [isSafari, setIsSafari] = useState(false);
+  useEffect(() => {
+    setIsSafari(window.navigator.userAgent.indexOf('Safari') !== -1);
+  }, []);
+
   return (
     <div className="relative surface-ground">
       <div className="image-container">
         <img src={imageUrl} alt="Detail" className="detail-image" />
       </div>
-      {onBack && <Button className="float-top-left surface-card" onClick={onBack} icon="pi pi-arrow-left" rounded text raised aria-label="Back" />}
+      <div className="image-container image-container-under">
+        <img src={imageUrl} alt="Detail" className="detail-image" />
+      </div>
+      {onBack && <Button className={'float-top-left surface-card' + (isSafari ? ' mt-6' : '')} onClick={onBack} icon="pi pi-arrow-left" rounded text raised aria-label="Back" />}
       <div className="info-sheet">
         <div className="text-color border-round-top-xl surface-ground pb-4">
           <h2 className="text-center mt-0 pt-4 mb-2">{event.title}</h2>
@@ -100,7 +108,18 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
           )}
           {!!relatedEvents?.length && (
             <div className="pb-2">
-              <EventCards title="Verwandte Events" events={relatedEvents || []} />
+              <CardSlider
+                variant="small"
+                title="Verwandte Events"
+                items={(relatedEvents || []).map(event => {
+                  return {
+                    id: event.id,
+                    href: `/${event.id}`,
+                    title: event.title,
+                    imageUrl: event.images?.[0] || '/images/fallback-image-event.jpg'
+                  };
+                })}
+              />
             </div>
           )}
         </div>

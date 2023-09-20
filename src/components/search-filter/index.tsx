@@ -40,27 +40,11 @@ export const SearchFilter: FC<ISearchFilterProps> = ({ query, onQueryChange }) =
       <div>
         <span className="p-input-icon-left w-full pt-2">
           <i className="pi pi-search" style={{ top: '58%' }} />
-          <InputText
-            className="p-inputtext-lg w-full"
-            placeholder="Suche"
-            name="search"
-            value={searchText}
-            onChange={e => setSearchText(e.target.value)}
-            onKeyDown={handleKeyPress}
-          />
+          <InputText className="p-inputtext-lg w-full" placeholder="Suche" name="search" value={searchText} onChange={e => setSearchText(e.target.value)} onKeyDown={handleKeyPress} />
         </span>
       </div>
-      <div className="card flex pt-2">
-        <MultiSelect
-          value={selectedCategories}
-          options={categories}
-          onChange={e => setSelectedCategories(e.value)}
-          optionLabel="name"
-          placeholder="Kategorien"
-          panelFooterTemplate={panelFooterTemplate}
-          className="w-full md:w-20rem"
-          display="chip"
-        />
+      <div className="flex pt-2">
+        <MultiSelect value={selectedCategories} options={categories} onChange={e => setSelectedCategories(e.value)} optionLabel="name" placeholder="Kategorien" panelFooterTemplate={panelFooterTemplate} className="w-full md:w-20rem" display="chip" />
       </div>
       <div className="flex justify-content-end pt-4">
         <Button rounded label="Filter" icon="pi pi-sliders-v" onClick={performSearch} />

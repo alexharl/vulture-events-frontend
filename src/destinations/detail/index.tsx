@@ -4,6 +4,7 @@ import { IEvent } from '../../model/event';
 import { EventDetailNotFound } from '../../components/event-detail/not-found';
 import { EventDetail } from '../../components/event-detail';
 import { getEventById, getEvents } from '../../api';
+import { navigateToSearch } from '../../common/navigation';
 
 const EventDetailDestination: React.FC = () => {
   const response = useLoaderData() as ActionResponse<{ eventResponse: ActionResponse<IEvent>; relatedResponse: ActionResponse<IEvent[]> }>;
@@ -16,17 +17,14 @@ const EventDetailDestination: React.FC = () => {
   }
 
   return (
-    <>
-      <EventDetail
-        event={eventResponse.data}
-        relatedEvents={response.data?.relatedResponse?.data || []}
-        onBack={() => navigate(-1)}
-        onFilter={q => {
-          navigate('/search?text=' + (q.text || '') + '&categories=' + q.categories?.join(','));
-        }}
-      />
-      ;
-    </>
+    <EventDetail
+      event={eventResponse.data}
+      relatedEvents={response.data?.relatedResponse?.data || []}
+      onBack={() => navigate(-1)}
+      onFilter={q => {
+        navigateToSearch(navigate, q);
+      }}
+    />
   );
 };
 
