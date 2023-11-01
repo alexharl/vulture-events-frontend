@@ -5,6 +5,9 @@ import { categories } from '../../common/categories';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
+import { ILocation } from '../../model/location';
+import { locations } from '../../common/locations';
+import { Dropdown } from 'primereact/dropdown';
 
 interface ISearchFilterProps {
   query: IEventQuery;
@@ -14,6 +17,7 @@ interface ISearchFilterProps {
 export const SearchFilter: FC<ISearchFilterProps> = ({ query, onQueryChange }) => {
   const [searchText, setSearchText] = useState(query.text);
   const [selectedCategories, setSelectedCategories] = useState<ICategory[]>(categories.filter(c => query.categories?.includes(c.id)));
+  const [selectedLocation, setSelectedLocation] = useState<ILocation | undefined>(locations.find(l => l.id === query.origin));
 
   const panelFooterTemplate = () => {
     const length = selectedCategories ? selectedCategories.length : 0;
@@ -32,7 +36,7 @@ export const SearchFilter: FC<ISearchFilterProps> = ({ query, onQueryChange }) =
   };
 
   const performSearch = () => {
-    onQueryChange({ ...query, text: searchText, categories: selectedCategories.map(c => c.id) });
+    onQueryChange({ ...query, text: searchText, categories: selectedCategories.map(c => c.id), origin: selectedLocation?.id });
   };
 
   return (
@@ -45,6 +49,9 @@ export const SearchFilter: FC<ISearchFilterProps> = ({ query, onQueryChange }) =
       </div>
       <div className="flex pt-2">
         <MultiSelect value={selectedCategories} options={categories} onChange={e => setSelectedCategories(e.value)} optionLabel="name" placeholder="Kategorien" panelFooterTemplate={panelFooterTemplate} className="w-full md:w-20rem" display="chip" />
+      </div>
+      <div className="flex pt-2">
+        <Dropdown showClear value={selectedLocation} options={locations} onChange={e => setSelectedLocation(e.value)} optionLabel="name" placeholder="Location" className="w-full md:w-20rem" />
       </div>
       <div className="flex justify-content-end pt-4">
         <Button rounded label="Filter" icon="pi pi-sliders-v" onClick={performSearch} />

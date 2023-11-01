@@ -14,10 +14,14 @@ const SearchDestination: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URL('http://a.b' + location.search).searchParams;
+  const paramText = params.get('text') || '';
   const paramCategories = params.get('categories')?.split(',') || [];
+  const paramOrigin = params.get('origin') || '';
+
   const query: IEventQuery = {
-    text: params.get('text') || '',
-    categories: paramCategories
+    text: paramText,
+    categories: paramCategories,
+    origin: paramOrigin
   };
 
   return (
@@ -55,7 +59,8 @@ const SearchRoute: RouteObject = {
     const searchParams = new URL(request.url).searchParams;
     const text = searchParams.get('text') || '';
     const categories = searchParams.get('categories')?.split(',') || [];
-    return await getEvents({ text, categories, limit: 200 }).catch(() => ActionResponse.Error<IEvent[]>('Fehler beim Laden der Events'));
+    const origin = searchParams.get('origin') || '';
+    return await getEvents({ text, categories, origin, limit: 200 }).catch(() => ActionResponse.Error<IEvent[]>('Fehler beim Laden der Events'));
   }
 };
 
