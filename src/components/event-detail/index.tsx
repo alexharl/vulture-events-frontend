@@ -32,7 +32,9 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
       <div className="image-container">
         <img src={imageUrl} alt="Detail" className="detail-image" />
       </div>
-      {onBack && <Button className={'float-top-left surface-card' + (isSafari ? ' mt-6' : '')} onClick={onBack} icon="pi pi-arrow-left" rounded text raised aria-label="Back" />}
+      {onBack && (
+        <Button className={'float-top-left surface-card' + (isSafari ? ' mt-6' : '')} onClick={onBack} icon="pi pi-arrow-left" rounded text raised aria-label="Back" />
+      )}
       <div className="info-sheet">
         <div className="text-color border-round-top-xl surface-ground pb-4">
           <h2 className="text-center mt-0 pt-4 mb-2">{event.title}</h2>
@@ -72,6 +74,18 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
                 </div>
               </div>
             )}
+            {event.links?.length && (
+              <div className="flex pb-3">
+                <i className="pi pi-link"></i>
+                <div className="pl-4">
+                  {event.links.map(link => (
+                    <div key={link.url} className="pb-2">
+                      <a href={link.url}>{link.title}</a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           {!!categories.length && (
             <div className="pl-4 pr-4">
@@ -97,6 +111,16 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
                   {event.images.map(image => (
                     <div className="w-full pb-2" key={image}>
                       <img style={{ width: 'inherit' }} src={image} alt="Bild" />
+                    </div>
+                  ))}
+                </>
+              )}
+              {!!event.embeds?.length && (
+                <>
+                  <h5 className="mb-2">Videos</h5>
+                  {event.embeds.map(embed => (
+                    <div className="w-full pb-2" key={embed.url}>
+                      {embed.type === 'youtube' && <iframe width="100%" height="300" src={embed.url} title="YouTube video player" frameBorder="0" allowFullScreen></iframe>}
                     </div>
                   ))}
                 </>

@@ -1,4 +1,15 @@
 export type TEventOrigin = 'zbau' | 'rakete' | 'haus33';
+
+export interface IEventEmbed {
+  type: string;
+  url: string;
+}
+
+export interface IEventLink {
+  url: string;
+  title: string;
+}
+
 export interface IEvent {
   origin: TEventOrigin;
   id: string;
@@ -23,4 +34,6 @@ export interface IEvent {
   price?: string;
 
   images?: string[];
+  embeds?: IEventEmbed[];
+  links?: IEventLink[];
 }
