@@ -10,7 +10,7 @@ import { navigateToSearch } from '../../common/navigation';
 import { Button } from 'primereact/button';
 
 const HomeDestination: React.FC = () => {
-  const eventsData = useLoaderData() as ActionResponse<{ eventsResponse: ActionResponse<IEvent[]>; weekendResponse: ActionResponse<IEvent[]> }>;
+  const eventsData = useLoaderData() as ActionResponse<{ weekendResponse: ActionResponse<IEvent[]>; featuredResponse: ActionResponse<IEvent[]>; eventsResponse: ActionResponse<IEvent[]> }>;
   const navigate = useNavigate();
 
   return (
@@ -18,6 +18,20 @@ const HomeDestination: React.FC = () => {
       <CardSlider
         title="Wochenende"
         items={(eventsData.data?.weekendResponse?.data || []).map(event => {
+          return {
+            id: event.id,
+            href: `/${event.id}`,
+            title: event.title,
+            imageUrl: event.images?.[0] || '/images/fallback-image-event.jpg',
+            subtitle: event.date + (event.time ? ' ' + event.time : ''),
+            content: <LocationBadge origin={event.origin} />
+          };
+        })}
+      />
+
+      <CardSlider
+        title="Featured"
+        items={(eventsData.data?.featuredResponse?.data || []).map(event => {
           return {
             id: event.id,
             href: `/${event.id}`,
@@ -62,9 +76,10 @@ const HomeRoute: RouteObject = {
   path: '/',
   element: <HomeDestination />,
   loader: async () => {
-    const eventsResponse = await getEvents().catch(() => ActionResponse.Error<IEvent[]>('Fehler beim Laden der Events'));
     const weekendResponse = await getEventsNextWeekend().catch(() => ActionResponse.Error<IEvent[]>('Fehler beim Laden der Events'));
-    return ActionResponse.Data({ eventsResponse, weekendResponse });
+    const featuredResponse = await getEvents({ categories: ['featured'] }).catch(() => ActionResponse.Error<IEvent[]>('Fehler beim Laden der Events'));
+    const eventsResponse = await getEvents().catch(() => ActionResponse.Error<IEvent[]>('Fehler beim Laden der Events'));
+    return ActionResponse.Data({ weekendResponse, featuredResponse, eventsResponse });
   }
 };
 
