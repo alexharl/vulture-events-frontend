@@ -6,6 +6,7 @@ import { resolveCategoriesFromId } from '../../common/categories';
 import { Button } from 'primereact/button';
 import { IEventQuery } from '../../model/query';
 import { CardSlider } from '../card-slider';
+import { useFavorites } from '../../FavoritesContext';
 
 export interface IEventDetailProps {
   event: IEvent;
@@ -27,6 +28,8 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
     setIsSafari(window.navigator.userAgent.indexOf('Safari') !== -1);
   }, []);
 
+  const { toggleFavorite, isFavorite } = useFavorites();
+
   return (
     <div className="relative surface-ground">
       <div className="image-container">
@@ -36,7 +39,17 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
         <Button className={'float-top-left surface-card' + (isSafari ? ' mt-6' : '')} onClick={onBack} icon="pi pi-arrow-left" rounded text raised aria-label="Back" />
       )}
       <div className="info-sheet">
-        <div className="text-color border-round-top-xl surface-ground pb-4">
+        <div className="relative text-color border-round-top-xl surface-ground pb-4">
+          <div
+            className="absolute top-0 right-0 p-3"
+            onClick={e => {
+              toggleFavorite(event.id);
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            <i className={`pi pi-star${!isFavorite(event.id) ? '' : '-fill'} text-color`} style={{ fontSize: '3rem' }}></i>
+          </div>
           <h2 className="text-center mt-0 pt-4 mb-2">{event.title}</h2>
           {event.subtitle && <p className="text-center mt-0 mb-4">{event.subtitle}</p>}
           <div className="pl-4 pr-4">
@@ -74,7 +87,7 @@ export const EventDetail: React.FC<IEventDetailProps> = ({ event, onBack, onFilt
                 </div>
               </div>
             )}
-            {event.links?.length && (
+            {!!event.links?.length && (
               <div className="flex pb-3">
                 <i className="pi pi-link"></i>
                 <div className="pl-4">

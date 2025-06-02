@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { IEvent } from '../../model/event';
+import { useFavorites } from '../../FavoritesContext';
 
 interface IEventListProps {
   title?: string;
@@ -37,8 +38,11 @@ interface IEventListItemProps {
 }
 export const EventListItem: React.FC<IEventListItemProps> = ({ event }) => {
   const imageUrl = event.images?.[0] || '/images/fallback-image-event.jpg';
+
+  const { toggleFavorite, isFavorite } = useFavorites();
+
   return (
-    <div style={{ maxHeight: '250px' }} className="overflow-hidden border-round-xl surface-card m-0 shadow-1 flex">
+    <div style={{ maxHeight: '250px' }} className="relative overflow-hidden border-round-xl surface-card m-0 shadow-1 flex">
       <div className="m-0 p-0 overflow-hidden flex-shrink-0" style={{ flexBasis: '25%' }}>
         <img className="block w-full max-w-full h-full" style={{ objectFit: 'cover' }} src={imageUrl} alt="IMG" />
       </div>
@@ -56,6 +60,13 @@ export const EventListItem: React.FC<IEventListItemProps> = ({ event }) => {
             <span className="pl-2">{event.locations?.join(', ')}</span>
           </div>
         </div>
+      </div>
+      <div className="absolute top-0 right-0 p-3" onClick={(e) => {
+        toggleFavorite(event.id);
+        e.stopPropagation();
+        e.preventDefault();
+      }}>
+        <i className={`pi pi-star${!isFavorite(event.id) ? '' : '-fill'} text-color`} style={{ fontSize: '3rem' }}></i>
       </div>
     </div>
   );

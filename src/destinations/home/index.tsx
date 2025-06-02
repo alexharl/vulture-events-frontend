@@ -10,7 +10,11 @@ import { navigateToSearch } from '../../common/navigation';
 import { Button } from 'primereact/button';
 
 const HomeDestination: React.FC = () => {
-  const eventsData = useLoaderData() as ActionResponse<{ weekendResponse: ActionResponse<IEvent[]>; featuredResponse: ActionResponse<IEvent[]>; eventsResponse: ActionResponse<IEvent[]> }>;
+  const eventsData = useLoaderData() as ActionResponse<{
+    weekendResponse: ActionResponse<IEvent[]>;
+    featuredResponse: ActionResponse<IEvent[]>;
+    eventsResponse: ActionResponse<IEvent[]>;
+  }>;
   const navigate = useNavigate();
 
   return (
@@ -29,31 +33,41 @@ const HomeDestination: React.FC = () => {
         })}
       />
 
-      <CardSlider
-        title="Featured"
-        items={(eventsData.data?.featuredResponse?.data || []).map(event => {
-          return {
-            id: event.id,
-            href: `/${event.id}`,
-            title: event.title,
-            imageUrl: event.images?.[0] || '/images/fallback-image-event.jpg',
-            subtitle: event.date + (event.time ? ' ' + event.time : ''),
-            content: <LocationBadge origin={event.origin} />
-          };
-        })}
-      />
+      {!!eventsData.data?.featuredResponse?.data?.length && (
+        <CardSlider
+          title="Featured"
+          items={(eventsData.data?.featuredResponse?.data || []).map(event => {
+            return {
+              id: event.id,
+              href: `/${event.id}`,
+              title: event.title,
+              imageUrl: event.images?.[0] || '/images/fallback-image-event.jpg',
+              subtitle: event.date + (event.time ? ' ' + event.time : ''),
+              content: <LocationBadge origin={event.origin} />
+            };
+          })}
+        />
+      )}
 
       <CardSlider
         title="Kategorien"
         variant="small"
-        items={categories.map(category => {
-          return {
-            id: category.id,
-            href: `/search?categories=${category.id}`,
-            title: category.name,
-            imageUrl: category.image || '/images/fallback-image-event.jpg'
-          };
-        })}
+        items={[
+          {
+            id: 'favorites',
+            href: `/favorites`,
+            title: 'Favoriten',
+            imageUrl: '/images/fallback-image-event.jpg'
+          },
+          ...categories.map(category => {
+            return {
+              id: category.id,
+              href: `/search?categories=${category.id}`,
+              title: category.name,
+              imageUrl: category.image || '/images/fallback-image-event.jpg'
+            };
+          })
+        ]}
       />
 
       <EventList

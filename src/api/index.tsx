@@ -9,6 +9,11 @@ export async function getEventById(id: string): Promise<ActionResponse<IEvent>> 
   return await response.json();
 }
 
+export async function getEventsByIds(ids: string[]): Promise<ActionResponse<IEvent[]>> {
+  const response = await fetch(`${API_URL}/events?ids=${ids.join(',')}`);
+  return await response.json();
+}
+
 export async function getEvents(query?: IEventQuery): Promise<ActionResponse<IEvent[]>> {
   const response = await fetch(
     `${API_URL}/events?` +

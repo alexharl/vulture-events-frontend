@@ -21,14 +21,18 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomeRoute from './destinations/home';
 import SearchRoute from './destinations/search';
 import DetailRoute from './destinations/detail';
+import { FavoritesProvider } from './FavoritesContext';
+import FavoritesRoute from './destinations/favorites/idnex';
 
-const router = createBrowserRouter([HomeRoute, DetailRoute, SearchRoute]);
+const router = createBrowserRouter([HomeRoute, DetailRoute, SearchRoute, FavoritesRoute]);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <PrimeReactProvider>
-      <RouterProvider router={router} />
+      <FavoritesProvider>
+        <RouterProvider router={router} />
+      </FavoritesProvider>
     </PrimeReactProvider>
   </React.StrictMode>
 );
